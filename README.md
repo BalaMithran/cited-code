@@ -5,7 +5,7 @@
 <h1 align="center">cited-code</h1>
 
 <p align="center">
-  <strong>Claude already knows the file. now you can click there too.</strong><br>
+  <strong>stop making devs grep for the file you just described</strong><br>
   Every code reference in an answer becomes a real link — checked against your repo the same turn, not vibes.
 </p>
 
