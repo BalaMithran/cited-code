@@ -25,7 +25,7 @@
 
 ---
 
-Claude explains a bug across four files, and you're left copy-pasting `services/serving/app/main.py:234` into cmd+P by hand, like it's 2019. A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that fixes that: every file, function, variable, route, and config key Claude names in an answer becomes a link straight to where it actually lives — cmd+click and you're at the line, not squinting at a path buried in a paragraph.
+Claude explains a bug across four files, and you're left copy-pasting `services/serving/app/main.py:234` into cmd+P by hand. A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that fixes that: every file, function, variable, route, and config key Claude names in an answer becomes a link straight to where it actually lives — cmd+click and you're at the line, not squinting at a path buried in a paragraph.
 
 ## Before / After
 
