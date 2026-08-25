@@ -28,17 +28,26 @@ A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that turn
 
 ## Before / After
 
-Every link below is real and clickable on this page, right now — pointed at this repo's own code, so the demo proves itself instead of asking you to trust a screenshot.
-
-**Not this:**
+<table>
+<tr>
+<th width="50%">🗣️ Plain answer</th>
+<th width="50%">🔗 cited-code (paranoid)</th>
+</tr>
+<tr>
+<td valign="top">
 
 > If CLAUDE_PROJECT_DIR is unset, state defaults to paranoid. Level is read in cited-code-activate.sh, switching happens in cited-code-tracker.sh.
 
-**This:**
+</td>
+<td valign="top">
 
 > If [CLAUDE_PROJECT_DIR](hooks/cited-code-activate.sh#L7) is unset, state defaults to `paranoid`. Level is read in [cited-code-activate.sh](hooks/cited-code-activate.sh), switching happens in [cited-code-tracker.sh](hooks/cited-code-tracker.sh).
 
-Cmd/Ctrl+click either link on GitHub, or inside Claude Code's IDE integration, and it jumps straight to that line. No copy-pasting a path into cmd+P.
+</td>
+</tr>
+</table>
+
+The right column's links are real and clickable on this page right now — pointed at this repo's own code, so the demo proves itself instead of asking you to trust a screenshot. Cmd/Ctrl+click one, on GitHub or inside Claude Code's IDE integration, and it jumps straight to that line. No copy-pasting a path into cmd+P.
 
 ## Install
 
