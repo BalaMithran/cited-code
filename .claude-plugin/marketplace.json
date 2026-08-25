@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cited-code",
+  "description": "Clickable jump-to-code citations for Claude Code responses, at a configurable density level.",
+  "owner": {
+    "name": "BalaMithran",
+    "url": "https://github.com/BalaMithran"
+  },
+  "plugins": [
+    {
+      "name": "cited-code",
+      "description": "Every code term Claude cites becomes a verified markdown link to its real location. Levels: lite, paranoid (default), ocd, yolo.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "cited-code",
+  "description": "Turns code references in Claude Code's responses into clickable jump-to-code links, at a configurable citation-density level (lite/paranoid/ocd/yolo).",
+  "author": {
+    "name": "BalaMithran",
+    "url": "https://github.com/BalaMithran"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/cited-code-activate.sh\"",
+            "timeout": 5,
+            "statusMessage": "Loading cited-code..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/cited-code-tracker.sh\"",
+            "timeout": 5,
+            "statusMessage": "Tracking cited-code level..."
+          }
+        ]
+      }
+    ]
+  }
+}
