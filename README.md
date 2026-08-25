@@ -1,37 +1,44 @@
-# cited-code
+<p align="center">
+  <img src="https://em-content.zobj.net/source/apple/391/link_1f517.png" width="100" />
+</p>
 
-A Claude Code plugin that turns code references in Claude's responses into
-clickable jump-to-code links, instead of a wall of plain-text prose.
+<h1 align="center">cited-code</h1>
 
-```
-Not this:
-> If `predictors` is empty, `/predict` returns `503`.
+<p align="center">
+  <strong>stop making devs grep for the file you just described</strong>
+</p>
 
-This:
-> If [predictors](services/serving/app/main.py) is empty, `/predict`
-> returns [503](services/serving/app/main.py#L185).
-```
+<p align="center">
+  <a href="https://github.com/BalaMithran/cited-code/stargazers"><img src="https://img.shields.io/github/stars/BalaMithran/cited-code?style=flat&color=yellow" alt="Stars"></a>
+  <a href="https://github.com/BalaMithran/cited-code/commits/main"><img src="https://img.shields.io/github/last-commit/BalaMithran/cited-code?style=flat" alt="Last Commit"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/BalaMithran/cited-code?style=flat" alt="License"></a>
+</p>
 
-Every code term (file, function, variable, config key, error string) that
-Claude names in an explanation gets verified against the actual code **that
-same turn**, then linked to its real location — cmd+click in the IDE jumps
-straight there. Ambiguous or hypothetical references stay plain backticks
-rather than risk a wrong link.
+<p align="center">
+  <a href="#before--after">Before/After</a> •
+  <a href="#install">Install</a> •
+  <a href="#levels">Levels</a> •
+  <a href="#how-it-works">How It Works</a> •
+  <a href="#status">Status</a>
+</p>
 
-## Levels
+---
 
-Configurable like `/caveman`, persisted per-project, hook-enforced so it
-survives context compression:
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that turns code references in Claude's answers into clickable jump-to-code links, verified against the real repo the same turn — instead of a paragraph you have to manually grep against.
 
-| Level | Behavior |
-|-------|----------|
-| `lite` | Plain backticks by default; link only on explicit ask or first introduction. |
-| `paranoid` (default) | Every resolvable code term linked, first occurrence. |
-| `ocd` | Every resolvable code term, every occurrence, maximal density. |
-| `yolo` | Off — plain backticks, no verification. |
+## Before / After
 
-Switch with `/cited-code lite|paranoid|ocd|yolo`, or say it naturally
-("cited-code ocd", "stop cited-code").
+Every link below is real and clickable on this page, right now — pointed at this repo's own code, so the demo proves itself instead of asking you to trust a screenshot.
+
+**Not this:**
+
+> If CLAUDE_PROJECT_DIR is unset, state defaults to paranoid. Level is read in cited-code-activate.sh, switching happens in cited-code-tracker.sh.
+
+**This:**
+
+> If [CLAUDE_PROJECT_DIR](hooks/cited-code-activate.sh#L7) is unset, state defaults to `paranoid`. Level is read in [cited-code-activate.sh](hooks/cited-code-activate.sh), switching happens in [cited-code-tracker.sh](hooks/cited-code-tracker.sh).
+
+Cmd/Ctrl+click either link on GitHub, or inside Claude Code's IDE integration, and it jumps straight to that line. No copy-pasting a path into cmd+P.
 
 ## Install
 
@@ -40,13 +47,40 @@ Switch with `/cited-code lite|paranoid|ocd|yolo`, or say it naturally
 /plugin install cited-code
 ```
 
-## How it works
+Works in any repo. No dependencies beyond bash — nothing to `npm install`.
 
-- `SessionStart` hook announces the active level each session.
-- `UserPromptSubmit` hook parses `/cited-code <level>` (or natural-language
-  switches), persists it to `<project>/.claude/.cited-code-level`, and
-  re-injects a short reminder every turn.
-- `skills/cited-code/SKILL.md` is the full spec the hooks summarize —
-  read it for the exact linking rules.
+**Trigger:** on by default at `paranoid`. Switch with `/cited-code lite|paranoid|ocd|yolo`, or say it naturally ("cited-code ocd", "stop cited-code").
 
-No external dependencies — plain bash.
+## Levels
+
+| Level | Behavior |
+|---|---|
+| `lite` | Plain backticks by default. Links only on explicit ask, or once per file/function first introduced. |
+| `paranoid` *(default)* | Every resolvable code term linked, first occurrence. Trust nothing you haven't verified this turn. |
+| `ocd` | Every occurrence linked — status lines, directory refs, route/config strings included. Maximal density. |
+| `yolo` | Off. Plain backticks, no verification, no links. |
+
+Levels persist per-project (`<project>/.claude/.cited-code-level`, gitignored — a per-dev preference, not a team setting) until changed.
+
+The one rule that never changes across levels: a link only gets made if its target was verified with a real tool call **this turn**. Ambiguous or hypothetical code stays plain backticks — a stale link is worse than no link.
+
+## How It Works
+
+1. `hooks/cited-code-activate.sh` runs on `SessionStart`, reads the level, announces the active ruleset.
+2. `hooks/cited-code-tracker.sh` runs on every `UserPromptSubmit` — parses `/cited-code <level>` switches, persists the choice, and re-injects a short reminder every turn so the behavior survives context compression instead of drifting back to plain prose mid-session.
+3. `skills/cited-code/SKILL.md` is the full spec both hooks summarize.
+
+Same hook shape as [caveman](https://github.com/JuliusBrussee/caveman) — `SessionStart` + `UserPromptSubmit`, state file, `hookSpecificOutput.additionalContext` — just applied to code citations instead of response brevity. If you already run caveman, this is a compatible sibling, not a competitor.
+
+## Status
+
+Early — built and hand-tested in one session, not yet running across a real team or benchmarked for actual dev time saved. No fabricated numbers here on purpose: if you try it and it's genuinely useful (or genuinely annoying at `ocd`), open an issue and say so.
+
+## Links
+
+- [skills/cited-code/SKILL.md](skills/cited-code/SKILL.md) — full linking spec
+- [Issues](https://github.com/BalaMithran/cited-code/issues) — bugs, feature requests, "this is annoying at ocd"
+
+## License
+
+MIT
