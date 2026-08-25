@@ -9,23 +9,23 @@ Every code term named in an explanation (function, file, variable, config key,
 error string) becomes a link that jumps straight to its real location —
 instead of forcing the reader to grep for it themselves.
 
-Persisted, level-based, hook-enforced — same shape as `/caveman`. A
-SessionStart hook announces the active level every session; a
-UserPromptSubmit hook re-injects a short reminder every turn (so it survives
-context compression and doesn't drift back to plain prose mid-session) and
-handles switching. See `hooks/cited-code-activate.sh` and
-`hooks/cited-code-tracker.sh` — this file is the full spec they summarize.
+Persisted, level-based, hook-enforced. A SessionStart hook announces the
+active level every session; a UserPromptSubmit hook re-injects a short
+reminder every turn (so it survives context compression and doesn't drift
+back to plain prose mid-session) and handles switching. See
+`hooks/cited-code-activate.sh` and `hooks/cited-code-tracker.sh` — this file
+is the full spec they summarize.
 
 ## Levels
 
 | Level | Behavior |
 |-------|----------|
+| **yolo** | Skip this skill entirely, plain backticks only, don't bother verifying. |
 | **lite** | Plain `` `backticks` `` by default. Link only on explicit ask, or once per file/function the first time it's introduced. |
 | **paranoid** (default) | Every resolvable code term gets linked, first occurrence is enough. Trust nothing you haven't verified this turn. |
 | **ocd** | Every resolvable code term, every occurrence — including status/summary lines, directory refs, route/config strings. Maximal density, nothing left uncited. |
-| **yolo** | Skip this skill entirely, plain backticks only, don't bother verifying. |
 
-Switch with `/cited-code lite|paranoid|ocd|yolo`, or naturally ("cited-code
+Switch with `/cited-code yolo|lite|paranoid|ocd`, or naturally ("cited-code
 ocd", "stop cited-code"). Persists per-project (via
 `<project>/.claude/.cited-code-level`, gitignore it — per-dev, not a team
 setting) until changed or the state file is deleted.

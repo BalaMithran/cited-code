@@ -19,7 +19,7 @@
   <a href="#install">Install</a> •
   <a href="#levels">Levels</a> •
   <a href="#how-it-works">How It Works</a> •
-  <a href="#status">Status</a>
+  <a href="#roadmap">Roadmap</a>
 </p>
 
 ---
@@ -49,16 +49,16 @@ Cmd/Ctrl+click either link on GitHub, or inside Claude Code's IDE integration, a
 
 Works in any repo. No dependencies beyond bash — nothing to `npm install`.
 
-**Trigger:** on by default at `paranoid`. Switch with `/cited-code lite|paranoid|ocd|yolo`, or say it naturally ("cited-code ocd", "stop cited-code").
+**Trigger:** on by default at `paranoid`. Switch with `/cited-code yolo|lite|paranoid|ocd`, or say it naturally ("cited-code ocd", "stop cited-code").
 
 ## Levels
 
 | Level | Behavior |
 |---|---|
+| `yolo` | Off. Plain backticks, no verification, no links. |
 | `lite` | Plain backticks by default. Links only on explicit ask, or once per file/function first introduced. |
 | `paranoid` *(default)* | Every resolvable code term linked, first occurrence. Trust nothing you haven't verified this turn. |
 | `ocd` | Every occurrence linked — status lines, directory refs, route/config strings included. Maximal density. |
-| `yolo` | Off. Plain backticks, no verification, no links. |
 
 Levels persist per-project (`<project>/.claude/.cited-code-level`, gitignored — a per-dev preference, not a team setting) until changed.
 
@@ -70,11 +70,13 @@ The one rule that never changes across levels: a link only gets made if its targ
 2. `hooks/cited-code-tracker.sh` runs on every `UserPromptSubmit` — parses `/cited-code <level>` switches, persists the choice, and re-injects a short reminder every turn so the behavior survives context compression instead of drifting back to plain prose mid-session.
 3. `skills/cited-code/SKILL.md` is the full spec both hooks summarize.
 
-Same hook shape as [caveman](https://github.com/JuliusBrussee/caveman) — `SessionStart` + `UserPromptSubmit`, state file, `hookSpecificOutput.additionalContext` — just applied to code citations instead of response brevity. If you already run caveman, this is a compatible sibling, not a competitor.
+## Roadmap
 
-## Status
+- [ ] Measured before/after on real usage (time-to-locate a referenced symbol, not a token count — that's not this tool's metric to chase)
+- [ ] Statusline badge showing the active level
+- [ ] Cross-editor support beyond Claude Code
 
-Early — built and hand-tested in one session, not yet running across a real team or benchmarked for actual dev time saved. No fabricated numbers here on purpose: if you try it and it's genuinely useful (or genuinely annoying at `ocd`), open an issue and say so.
+Open an issue if `ocd` is genuinely annoying in practice, or genuinely great — both are useful signal.
 
 ## Links
 

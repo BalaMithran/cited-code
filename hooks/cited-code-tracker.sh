@@ -13,16 +13,16 @@ LOWER="$(printf '%s' "$INPUT" | tr '[:upper:]' '[:lower:]')"
 CURRENT="paranoid"
 if [ -f "$STATE_FILE" ]; then
   READ="$(tr -d '[:space:]' < "$STATE_FILE")"
-  case "$READ" in lite|paranoid|ocd|yolo) CURRENT="$READ" ;; esac
+  case "$READ" in yolo|lite|paranoid|ocd) CURRENT="$READ" ;; esac
 fi
 
 NEW=""
-if [[ "$LOWER" =~ /cited-code[[:space:]]+(lite|paranoid|ocd|yolo) ]]; then
+if [[ "$LOWER" =~ /cited-code[[:space:]]+(yolo|lite|paranoid|ocd) ]]; then
   NEW="${BASH_REMATCH[1]}"
 elif [[ "$LOWER" == *"cited-code"* ]]; then
   if [[ "$LOWER" =~ (stop|disable|turn off|deactivate)[^\"]*cited-code|cited-code[^\"]*(stop|disable|off) ]]; then
     NEW="yolo"
-  elif [[ "$LOWER" =~ cited-code[^\"]*(lite|paranoid|ocd|yolo) ]]; then
+  elif [[ "$LOWER" =~ cited-code[^\"]*(yolo|lite|paranoid|ocd) ]]; then
     NEW="${BASH_REMATCH[1]}"
   fi
 fi

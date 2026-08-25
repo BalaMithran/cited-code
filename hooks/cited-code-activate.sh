@@ -10,7 +10,7 @@ STATE_FILE="$PROJECT_DIR/.claude/.cited-code-level"
 LEVEL="paranoid"
 if [ -f "$STATE_FILE" ]; then
   READ="$(tr -d '[:space:]' < "$STATE_FILE")"
-  case "$READ" in lite|paranoid|ocd|yolo) LEVEL="$READ" ;; esac
+  case "$READ" in yolo|lite|paranoid|ocd) LEVEL="$READ" ;; esac
 fi
 
 if [ "$LEVEL" = "yolo" ]; then
@@ -34,4 +34,4 @@ echo "CITED-CODE MODE ACTIVE — level: $LEVEL
 
 $RULE
 
-Switch: /cited-code lite|paranoid|ocd|yolo. Persists (per-project) until changed or the state file is deleted."
+Switch: /cited-code yolo|lite|paranoid|ocd. Persists (per-project) until changed or the state file is deleted."
